@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Felipe Reyes – Dev Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #10101a;
+    --bg3: #16162a;
+    --border: rgba(120,120,255,0.15);
+    --border2: rgba(120,120,255,0.3);
+    --accent: #6c6fff;
+    --accent2: #a78bfa;
+    --cyan: #22d3ee;
+    --green: #4ade80;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --card-bg: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(108,111,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108,111,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb1 {
+    position: fixed;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(108,111,255,0.12) 0%, transparent 70%);
+    top: -200px; left: -150px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb2 {
+    position: fixed;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
+    bottom: 100px; right: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .hero {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-name {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-name .highlight {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+  }
+
+  .hero-desc span { color: var(--text); }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+  }
+  .btn-primary:hover { background: #8486ff; transform: translateY(-1px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--accent); }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.25);
+    border-radius: 100px;
+    padding: 0.35rem 0.9rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    margin-bottom: 2rem;
+  }
+  .status-dot {
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .section-header { margin-bottom: 3rem; }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+
+  .divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin: 1rem 0 2rem;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .skill-group {
+    background: var(--bg2);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+  .skill-group:hover { background: var(--bg3); }
+
+  .skill-group-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .skill-tag {
+    background: rgba(108,111,255,0.1);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    font-size: 12px;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .project-card:hover { background: var(--bg3); }
+
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .project-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .stack-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    border: 1px solid var(--border2);
+    color: var(--cyan);
+    background: rgba(34,211,238,0.05);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .contact-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .contact-card:hover {
+    border-color: var(--accent);
+    background: var(--bg3);
+    transform: translateY(-2px);
+  }
+
+  .contact-icon {
+    width: 40px; height: 40px;
+    background: rgba(108,111,255,0.12);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .contact-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .contact-value {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  footer span { color: var(--accent); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem; }
+    .nav-links { gap: 1rem; }
+    section { padding: 3rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb1"></div>
+<div class="orb2"></div>
+
+<nav>
+  <div class="nav-logo">FelipeReyes.dev</div>
+  <ul class="nav-links">
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="status-badge">
+    <span class="status-dot"></span>
+    Disponible para oportunidades
+  </div>
+  <div class="hero-tag">Desarrollador de software · Montevideo, UY</div>
+  <h1 class="hero-name">
+    Felipe<br><span class="highlight">Reyes</span>
+  </h1>
+  <p class="hero-desc">
+    Estudiante de <span>Analista en Tecnologías de la Información</span> en ORT Uruguay.
+    Construyo aplicaciones web, móviles y APIs con foco en soluciones reales.
+  </p>
+  <div class="hero-cta">
+    <a href="#proyectos" class="btn btn-primary">Ver proyectos →</a>
+    <a href="mailto:felipe.re.dev@gmail.com" class="btn btn-ghost">Contactarme</a>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section id="sobre-mi" class="reveal">
+  <div class="section-header">
+    <div class="section-tag">// 01 · sobre mí</div>
+    <h2 class="section-title">Quién soy</h2>
+    <div class="divider"></div>
+  </div>
+  <p style="color:var(--muted); line-height:1.8; font-size:1rem; max-width:620px; font-weight:400;">
+    Soy estudiante en ORT Uruguay, apasionado por el desarrollo de software.
+    Me especializo en crear aplicaciones completas — desde el frontend hasta el backend,
+    pasando por bases de datos y despliegue en la nube. Me interesa resolver problemas
+    reales con código limpio y escalable.
+  </p>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="reveal">
+  <div class="section-header">
+    <div class="section-tag">// 02 · habilidades</div>
+    <h2 class="section-title">Stack tecnológico</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-name">Frontend</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">JavaScript</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Backend</div>
+      <div class="skill-tags">
+        <span class="skill-tag">C#</span>
+        <span class="skill-tag">.NET</span>
+        <span class="skill-tag">APIs REST</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Base de datos</div>
+      <div class="skill-tags">
+        <span class="skill-tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-name">Cloud & DevOps</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Azure</span>
+        <span class="skill-tag">AWS</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">GitHub</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos" class="reveal">
+  <div class="section-header">
+    <div class="section-tag">// 03 · proyectos</div>
+    <h2 class="section-title">Lo que construí</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="projects-list">
+
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div class="project-title">Empresa de Astronomía</div>
+      <p class="project-desc">
+        Sistema de gestión para una empresa de astronomía con 3 tipos de usuarios.
+        Incluye reservas de salas de observación y préstamo de equipos astronómicos.
+        Autenticación por roles, calendario de disponibilidad y control de inventario.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">C#</span>
+        <span class="stack-tag">.NET</span>
+        <span class="stack-tag">SQL</span>
+        <span class="stack-tag">Roles & Auth</span>
+        <span class="stack-tag">Reservas</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div class="project-title">App móvil de bienestar</div>
+      <p class="project-desc">
+        Aplicación móvil conectada a una API propia para gestionar actividades de salud,
+        entrenamiento y aprendizaje. Integra geolocalización para contextualizar rutinas
+        y actividades según la ubicación del usuario.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">App móvil</span>
+        <span class="stack-tag">API REST</span>
+        <span class="stack-tag">Geolocalización</span>
+        <span class="stack-tag">HTML</span>
+        <span class="stack-tag">CSS</span>
+        <span class="stack-tag">JavaScript</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div class="project-title">Sistema de vuelos</div>
+      <p class="project-desc">
+        Plataforma de búsqueda, reserva y compra de vuelos con soporte para múltiples
+        usuarios. Gestión de asientos, itinerarios y confirmación de compras.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">C#</span>
+        <span class="stack-tag">.NET</span>
+        <span class="stack-tag">SQL</span>
+        <span class="stack-tag">Multi-usuario</span>
+        <span class="stack-tag">Reservas</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">04</div>
+      <div class="project-title">Páginas web responsivas</div>
+      <p class="project-desc">
+        Colección de sitios web responsivos con foco en diseño UI/UX, adaptados
+        para distintos dispositivos. Layouts modernos con CSS avanzado y JavaScript.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">HTML</span>
+        <span class="stack-tag">CSS</span>
+        <span class="stack-tag">JavaScript</span>
+        <span class="stack-tag">Responsive</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="reveal">
+  <div class="section-header">
+    <div class="section-tag">// 04 · contacto</div>
+    <h2 class="section-title">Hablemos</h2>
+    <div class="divider"></div>
+  </div>
+  <p style="color:var(--muted); margin-bottom:2rem; font-size:0.95rem; font-weight:400;">
+    Abierto a oportunidades laborales, prácticas y proyectos colaborativos.
+  </p>
+  <div class="contact-grid">
+    <a href="mailto:felipe.re.dev@gmail.com" class="contact-card">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-value">felipe.re.dev@gmail.com</div>
+      </div>
+    </a>
+    <a href="https://github.com/felipereyes-dev" target="_blank" class="contact-card">
+      <div class="contact-icon" style="font-size:22px; font-family:monospace; font-weight:700; color:var(--accent);">GH</div>
+      <div>
+        <div class="contact-label">GitHub</div>
+        <div class="contact-value">felipereyes-dev</div>
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/in/felipereyes-dev/" target="_blank" class="contact-card">
+      <div class="contact-icon" style="font-size:16px; font-family:monospace; font-weight:700; color:var(--accent);">in</div>
+      <div>
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-value">felipereyes-dev</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  Diseñado y construido · <span>Felipe Reyes</span> · 2025
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+
+</body>
+</html>
